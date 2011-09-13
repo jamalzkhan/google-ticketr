@@ -1,0 +1,22 @@
+application: g-africa-codelab
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  static_files: static/index.html
+  upload: static/index.html
+  mime_type: text/html
+
+# Required, the wrong Content-Type on a cache manifest causes browser errors.
+- url: /ticketr.appcache
+  static_files: static/ticketr.appcache
+  upload: static/ticketr.appcache
+  mime_type: text/cache-manifest
+  # DEBUG: Expire this sucker quickly.
+  expiration: 5m
+
+- url: /(.+)
+  static_files: static/\1
+  upload: static/(.+)

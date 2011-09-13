@@ -1,0 +1,102 @@
+#list {
+  width: 45%;
+  display: inline-block;
+  vertical-align: top;
+}
+#list > ul {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #999;
+}
+#list > ul li {
+  list-style-type: none;
+  padding: 10px;
+}
+#list > ul li.header {
+  background-color: transparent !important;
+  border: none !important;
+}
+#list > ul li:nth-child(even) {
+  background-color: #ccc;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+
+.ticket .airline {
+  font-weight: bold;
+}
+.ticket > div {
+  font-size: 80%;
+}
+
+#edit {
+  visibility: hidden;
+  width: 45%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px;
+}
+#edit.visible {
+  visibility: visible;
+}
+#edit label {
+  display: block;
+}
+#edit input {
+  display: block;
+}
+
+
+@media print {
+  /* This is a pretty good standard starting point for a print stylesheet. */
+  * {
+    background: transparent !important;
+    color: black !important;
+    text-shadow: none !important;
+    filter:none !important;
+    -ms-filter: none !important;
+  }
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+
+@media screen and (max-device-width: 480px) {
+  /* Smartphones */
+  /*
+  // == EXERCISE 7 ==
+  // Our current layout is really optimized for desktops and maybe tablets.
+  // Adjust the UI to work on smartphones by adding CSS rules to move the
+  // edit section into a modal view when there isn't enough screen area to
+  // support a side-by-side layout.
+  */
+
+  /*
+  This CSS block will cause an element to modally take over the full screen.
+  {
+    display: block;
+    position:fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+  }
+  */
+}
+
+/*
+// == EXTRA CREDIT ==
+//
+// Use the new CSS3 rules like box-shadow, text-shadow, border-radius, and
+// CSS gradient backgrounds to make this all look prettier.
+*/

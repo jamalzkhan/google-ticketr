@@ -1,0 +1,22 @@
+CACHE MANIFEST
+# Version: 1
+CACHE:
+
+# == EXTRA CREDIT ==
+# Figure out which resources this application will need to cache for offline
+# usage. Tip: Check Chrome's network tab in the developer tools to see what
+# requests are being made. Generally you'll need to cache anything the browser
+# is requesting.
+
+# == CSS ==
+# List your CSS resources here.
+# == Javascript ==
+# List your Javascript resources here.
+# == Images ==
+# List your image resources here.
+# == Fonts ==
+# List your font resources here.
+FALLBACK:
+# None needed. For now.
+NETWORK:
+# None needed. For now.
