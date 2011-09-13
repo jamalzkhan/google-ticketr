@@ -11,15 +11,46 @@
 #list > ul li {
   list-style-type: none;
   padding: 10px;
+  font-family: "Verdana";
 }
 #list > ul li.header {
   background-color: transparent !important;
   border: none !important;
 }
+
 #list > ul li:nth-child(even) {
   background-color: #ccc;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
+}
+
+#header h1{
+  font-family:"Verdana";
+  size: 15px;
+  color: #ccc;
+}
+
+#search-form button{
+  width: 50px;
+}
+
+#add button{
+ float:right;
+}
+
+#list button{
+  width: 10px;
+}
+
+#list input {
+  background: #fff;
+  border: 1px solid #bbb;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  height: 28px;
 }
 
 .ticket .airline {
@@ -29,12 +60,17 @@
   font-size: 80%;
 }
 
+#list button {
+  width:80px;
+}
+
 #edit {
   visibility: hidden;
   width: 45%;
   display: inline-block;
   vertical-align: top;
   padding: 10px;
+  font-family: "Verdana";
 }
 #edit.visible {
   visibility: visible;
@@ -81,7 +117,8 @@
 
   /*
   This CSS block will cause an element to modally take over the full screen.
-  {
+  */
+  #edit{
     display: block;
     position:fixed;
     top: 0;
@@ -91,7 +128,7 @@
     width: 100%;
     height: 100%;
   }
-  */
+  
 }
 
 /*
@@ -100,3 +137,99 @@
 // Use the new CSS3 rules like box-shadow, text-shadow, border-radius, and
 // CSS gradient backgrounds to make this all look prettier.
 */
+
+button {
+  background: #e3e3e3;
+  border: 1px solid #bbb;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -moz-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -ms-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  -o-box-shadow: inset 0 0 1px 1px #f6f6f6;
+  box-shadow: inset 0 0 1px 1px #f6f6f6;
+  color: #333;
+  font: bold 12px "helvetica neue", helvetica, arial, sans-serif;
+  line-height: 1;
+  padding: 8px 0 9px;
+  text-align: center;
+  text-shadow: 0 1px 0 #fff;
+  width: 150px; }
+  button.minimal:hover {
+    background: #d9d9d9;
+    -webkit-box-shadow: inset 0 0 1px 1px #eaeaea;
+    -moz-box-shadow: inset 0 0 1px 1px #eaeaea;
+    -ms-box-shadow: inset 0 0 1px 1px #eaeaea;
+    -o-box-shadow: inset 0 0 1px 1px #eaeaea;
+    box-shadow: inset 0 0 1px 1px #eaeaea;
+    color: #222;
+    cursor: pointer; }
+  button.minimal:active {
+    background: #d0d0d0;
+    -webkit-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -moz-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -ms-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    -o-box-shadow: inset 0 0 1px 1px #e3e3e3;
+    box-shadow: inset 0 0 1px 1px #e3e3e3;
+    color: #000; }
+    
+    button.cupid-blue {
+      background-color: #d7e5f5;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#d7e5f5), to(#cbe0f5));
+      /* Saf4+, Chrome */
+      background-image: -webkit-linear-gradient(top, #d7e5f5, #cbe0f5);
+      background-image: -moz-linear-gradient(top, #d7e5f5, #cbe0f5);
+      background-image: -ms-linear-gradient(top, #d7e5f5, #cbe0f5);
+      background-image: -o-linear-gradient(top, #d7e5f5, #cbe0f5);
+      background-image: linear-gradient(top, #d7e5f5, #cbe0f5);
+      border-top: 1px solid #abbbcc;
+      border-left: 1px solid #a7b6c7;
+      border-bottom: 1px solid #a1afbf;
+      border-right: 1px solid #a7b6c7;
+      -webkit-border-radius: 12px;
+      -moz-border-radius: 12px;
+      -ms-border-radius: 12px;
+      -o-border-radius: 12px;
+      border-radius: 12px;
+      -webkit-box-shadow: inset 0 1px 0 0 white;
+      -moz-box-shadow: inset 0 1px 0 0 white;
+      -ms-box-shadow: inset 0 1px 0 0 white;
+      -o-box-shadow: inset 0 1px 0 0 white;
+      box-shadow: inset 0 1px 0 0 white;
+      color: #1a3e66;
+      font: normal 11px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+      line-height: 1;
+      padding: 6px 0 7px 0;
+      text-align: center;
+      text-shadow: 0 1px 1px #fff;
+      width: 150px; }
+      button.cupid-blue:hover {
+        background-color: #ccd9e8;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#ccd9e8), to(#c1d4e8));
+        /* Saf4+, Chrome */
+        background-image: -webkit-linear-gradient(top, #ccd9e8, #c1d4e8);
+        background-image: -moz-linear-gradient(top, #ccd9e8, #c1d4e8);
+        background-image: -ms-linear-gradient(top, #ccd9e8, #c1d4e8);
+        background-image: -o-linear-gradient(top, #ccd9e8, #c1d4e8);
+        background-image: linear-gradient(top, #ccd9e8, #c1d4e8);
+        border-top: 1px solid #a1afbf;
+        border-left: 1px solid #9caaba;
+        border-bottom: 1px solid #96a3b3;
+        border-right: 1px solid #9caaba;
+        -webkit-box-shadow: inset 0 1px 0 0 #f2f2f2;
+        -moz-box-shadow: inset 0 1px 0 0 #f2f2f2;
+        -ms-box-shadow: inset 0 1px 0 0 #f2f2f2;
+        -o-box-shadow: inset 0 1px 0 0 #f2f2f2;
+        box-shadow: inset 0 1px 0 0 #f2f2f2;
+        color: #163659;
+        cursor: pointer; }
+      button.cupid-blue:active {
+        border: 1px solid #8c98a7;
+        -webkit-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+        -moz-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+        -ms-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+        -o-box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee;
+        box-shadow: inset 0 0 4px 2px #abbccf, 0 0 1px 0 #eeeeee; }

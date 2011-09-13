@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js ie6" lang="en"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js ie7" lang="en"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js ie8" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" manifest="ticketr.appcache"> <!--<![endif]-->
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
@@ -11,21 +11,33 @@
     == EXERCISE 6 ==
     Constrain your viewport to match the device size!
     -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   
     <title>Ticketr</title>
   
     <meta name="description" content="A codelab demonstrating how to build a ticket application in HTML5." />
-    <meta name="author" content="<your name>" />
+    <meta name="author" content="Jamal Khan" />
                        
     <link rel="stylesheet" href="css/ticketr.css" />
     <script src="js/modernizr.js"></script>
   </head>
 
   <body>
+    <section id ="header">
+      
+      <h1>Ticketr</h1>
+      
+    </section>
     <section id="list">
       <ul>
         <li class="header">
-          <button id="add">Add A New Ticket</button>
+          <section id="search-form">
+            <input id="search-term" type="text" placeholder="Enter a search term" />
+            <button id="search">Search</button>
+            <button id="clear">Clear</button>
+          </section>
+          <button id="add" class="">Add Ticket</button>
+          
         </li>
       </ul>
     </section>
@@ -38,6 +50,8 @@
       <input id="airline" type="text" placeholder="Worldwide Airways" />
       <button id="put">Add Ticket</button>
     </section>
+      
+    
     <script src="js/jquery.js"></script>
     <script>window.jQuery || document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js">\x3C/script>')</script>
     <script src="js/ticketr.js"></script>

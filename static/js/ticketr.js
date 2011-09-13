@@ -4,6 +4,7 @@ var ticketr = {
   targetVersion: "1.0"
 };
 
+
 // Let's deal with IDB prefixing.
 window.indexedDB =
   window.indexedDB ||
@@ -54,11 +55,17 @@ openRequest.onsuccess = function(e) {
       
     };
   }
+  ticketr.refreshTicketList();
 };
 
 ticketr.createTicket = function(ticket) {
   // == EXERCISE 4 ==
   // Take the ticket object and add it to the database.
+  
+  if (ticket.ticketNumber == ''){
+    alert("Please enter a valid ticket number")
+    return;
+  }
   
   var transaction = ticketr.database.transaction(
     ["ticket"],
@@ -66,11 +73,13 @@ ticketr.createTicket = function(ticket) {
     0
   );
   
-  var request = transaction.objectStore("ticket").put({
-    "ticketNumber": "1221264490",
-    "confirmation": "QRDJDK",
-    "airline": "Worldwide Airways"
-  });
+  var request = transaction.objectStore("ticket").put(ticket);
+  
+  // var request = transaction.objectStore("ticket").put({
+  //     "ticketNumber": "1221264490",
+  //     "confirmation": "QRDJDK",
+  //     "airline": "Worldwide Airways"
+  //   });
   
   request.onsuccess = function(e) {
     console.log("Great the record was added to the database");
@@ -83,13 +92,30 @@ ticketr.createTicket = function(ticket) {
 }
 
 ticketr.deleteTicket = function(ticketKey) {
-  // == EXTRA CREDIT ==
-  // Add a delete button to each ticket and wire this method up to be called
-  // when it's clicked. Then implement this function to remove the ticket from
-  // the database.
+
+  var transaction = ticketr.database.transaction(
+    ["ticket"],
+    IDBTransaction.READ_WRITE,
+    0
+  );
+  var store = transaction.objectStore("ticket");
+  var request = store.delete(ticketKey);
+
+    request.onsuccess = function(e) {
+      console.log("Deleted successfully!")
+      ticketr.refreshTicketList();
+    };
+    
+
+    request.onerror = function(e) {
+      console.log(e);
+    };
+  
 }
 
 ticketr.search = function(query) {
+  $("#list > ul li:not(.header)").remove();
+  
   // == EXTRA CREDIT ==
   // Add a search query input field to the top of the ticket list, wire it up
   // to call this function on each key-press, giving a search-as-you-type
@@ -101,10 +127,44 @@ ticketr.search = function(query) {
   // single field. And by far, the most complicated of all would be to allow
   // partial matches on any field, combined with the command-based query scheme
   // described above.
+  
+  var transaction = ticketr.database.transaction(
+    ["ticket"],
+    IDBTransaction.READ_WRITE,
+    0
+  );
+  var store = transaction.objectStore("ticket");
+  var keyRange = IDBKeyRange.lowerBound(0);
+  var cursorRequest = store.openCursor(keyRange);
+
+   cursorRequest.onsuccess = function(e) {
+     var result = e.target.result;
+     if(!!result == false){
+       return;
+     }
+     
+     
+     var ticket = result.value;
+     var test=new RegExp(query);
+     //Matching on all 3 fields
+     if(ticket.airline==query || ticket.confirmation==query ||ticket.ticketNumber==query){
+       var ticketElement = ticketr.buildTicketElement(ticket);
+       $("#list > ul").append(ticketElement);
+     }
+     //Partial matching
+    else if(test.test(ticket.airline) || test.test(ticket.confirmation) || test.test(ticket.ticketNumber)){
+      var ticketElement = ticketr.buildTicketElement(ticket);
+      $("#list > ul").append(ticketElement);
+    }
+     
+     result.continue();
+   };
+  
+  
 }
 
 ticketr.refreshTicketList = function() {
-  openRequest();
+  
   if (ticketr.database) {
     console.log("The database exists");
     $("#list > ul li:not(.header)").remove();
@@ -129,7 +189,7 @@ ticketr.refreshTicketList = function() {
       if(!!result == false) return;
       var ticket = result.value;
       //Now we do something with the ticket
-      console.log(ticket);
+      
       var ticketElement = ticketr.buildTicketElement(ticket);
       $("#list > ul").append(ticketElement);
       result.continue();
@@ -186,7 +246,14 @@ ticketr.buildTicketElement = function(ticket) {
   confirmationSpan.text(ticket.confirmation);
   confirmationP.append(confirmationSpan);
   div.append(confirmationP);
-
+  
+  var deleteButton = $(document.createElement("button"));
+  deleteButton.text("Delete");
+  deleteButton.click(function (e){
+    ticketr.deleteTicket(ticket.ticketNumber)
+  });
+  div.append(deleteButton);
+  
   return ticketElement;
 }
 
@@ -195,6 +262,18 @@ $(document).ready(function (e) {
   $("#add").click(function (e) {
     $("#edit").addClass("visible");
   });
+  
+  $("#search").click(function (e){
+    var query = $("#search-term").val()
+    console.log(query);
+    ticketr.createTicket(query);
+    ticketr.search(query);
+  });
+  
+  $("#clear").click(function (e){
+    ticketr.refreshTicketList();
+  });
+  
   
   $("#put").click(function (e) {
     $("#edit").removeClass("visible");
@@ -206,15 +285,6 @@ $(document).ready(function (e) {
     ticketr.createTicket(ticket);
   });
 
-  ticketr.refreshTicketList();
+  ticketr.refreshTicketList(list);
 
-
-  // == BOILERPLATE ==
-  // Remove for EXERCISE 5.
-  // var ticketElement = ticketr.buildTicketElement({
-  //    "ticketNumber": "1234567890",
-  //    "confirmation": "ABCDEF",
-  //    "airline": "Worldwide Airways"
-  //  });
-  //  $("#list > ul").append(ticketElement);
 });

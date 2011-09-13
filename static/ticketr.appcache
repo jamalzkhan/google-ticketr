@@ -9,9 +9,11 @@ CACHE:
 # is requesting.
 
 # == CSS ==
-# List your CSS resources here.
+css/ticketr.css
 # == Javascript ==
-# List your Javascript resources here.
+js/ticketr.js
+js/modernizr.js
+js/jquery.js
 # == Images ==
 # List your image resources here.
 # == Fonts ==
