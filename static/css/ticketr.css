@@ -30,8 +30,8 @@
   color: #ccc;
 }
 
-#search-form button{
-  width: 50px;
+#search-text button{
+  width: 100px;
 }
 
 #add button{

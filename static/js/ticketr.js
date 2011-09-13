@@ -26,8 +26,7 @@ var openRequest = indexedDB.open(
 openRequest.onsuccess = function(e) {
   ticketr.database = e.target.result;
   ticketr.database.onfailure = function(e) {
-    // This is a catch-all error handler. You'll probably want to do something
-    // useful here, like notifying the user about what went wrong.
+    // This is a catch-all error handler.
     console.error("Something has gone wrong! Oh noes!");
   };
   if (ticketr.database.version != ticketr.targetVersion) {
@@ -35,23 +34,17 @@ openRequest.onsuccess = function(e) {
     var migrationRequest = ticketr.database.setVersion(ticketr.targetVersion);
     migrationRequest.onsuccess = function(e) {
       
+      //Creating a local object store schema
       var ticketStore = ticketr.database.createObjectStore("ticket", 
         {keyPath: "ticketNumber"}
       );
       console.log("the ticketStore was setup");
-      // == EXERCISE 2 ==
-      // You need to create an object store named 'ticket' with a keyPath
-      // of ticketNumber.
       
+      //Some restrictions for the object store
       ticketStore.createIndex(
         "confirmation", "confirmation", {unique: true},
         "ticketNumber", "tickerNumber", {unique: true}
       );
-
-      // == EXERCISE 3 ==
-      // The ticketNumber field will be unique because it's the primary key,
-      // but confirmations are unique as well. Add an index that will ensure
-      // the uniqueness of the confirmation.
       
     };
   }
@@ -59,8 +52,6 @@ openRequest.onsuccess = function(e) {
 };
 
 ticketr.createTicket = function(ticket) {
-  // == EXERCISE 4 ==
-  // Take the ticket object and add it to the database.
   
   if (ticket.ticketNumber == ''){
     alert("Please enter a valid ticket number")
@@ -75,6 +66,7 @@ ticketr.createTicket = function(ticket) {
   
   var request = transaction.objectStore("ticket").put(ticket);
   
+  //Test data
   // var request = transaction.objectStore("ticket").put({
   //     "ticketNumber": "1221264490",
   //     "confirmation": "QRDJDK",
@@ -82,7 +74,7 @@ ticketr.createTicket = function(ticket) {
   //   });
   
   request.onsuccess = function(e) {
-    console.log("Great the record was added to the database");
+    console.log("Great! The record was added to the database");
     ticketr.refreshTicketList();
   }
   request.onfailure = function(e) {
@@ -105,7 +97,6 @@ ticketr.deleteTicket = function(ticketKey) {
       console.log("Deleted successfully!")
       ticketr.refreshTicketList();
     };
-    
 
     request.onerror = function(e) {
       console.log(e);
@@ -115,18 +106,6 @@ ticketr.deleteTicket = function(ticketKey) {
 
 ticketr.search = function(query) {
   $("#list > ul li:not(.header)").remove();
-  
-  // == EXTRA CREDIT ==
-  // Add a search query input field to the top of the ticket list, wire it up
-  // to call this function on each key-press, giving a search-as-you-type
-  // function. You have a number of options here, with more complicated
-  // options being worth more. Simple exact-matching on the ticket number is
-  // the easiest to implement. You could also simultaneously search on all
-  // fields. You might implement command-based queries, i.e.:
-  // airline:"Worldwide Airlines" would indicate you're only searching on a
-  // single field. And by far, the most complicated of all would be to allow
-  // partial matches on any field, combined with the command-based query scheme
-  // described above.
   
   var transaction = ticketr.database.transaction(
     ["ticket"],
@@ -143,7 +122,6 @@ ticketr.search = function(query) {
        return;
      }
      
-     
      var ticket = result.value;
      var test=new RegExp(query);
      //Matching on all 3 fields
@@ -151,7 +129,7 @@ ticketr.search = function(query) {
        var ticketElement = ticketr.buildTicketElement(ticket);
        $("#list > ul").append(ticketElement);
      }
-     //Partial matching
+     //Partial matching - yes I know the reg exp matching is crap but had to do it in 5 mins!
     else if(test.test(ticket.airline) || test.test(ticket.confirmation) || test.test(ticket.ticketNumber)){
       var ticketElement = ticketr.buildTicketElement(ticket);
       $("#list > ul").append(ticketElement);
@@ -168,10 +146,7 @@ ticketr.refreshTicketList = function() {
   if (ticketr.database) {
     console.log("The database exists");
     $("#list > ul li:not(.header)").remove();
-    // == EXERCISE 5 ==
-    // Remove the example ticket boilerplate from the init method below, and
-    // instead, query the database for the ticket data. Use the supplied
-    // ticketr.buildTicketElement function to generate each ticket DOM structure.
+    
     var transaction = ticketr.database.transaction(
       ["ticket"],
       IDBTransaction.READ_WRITE,
@@ -194,8 +169,7 @@ ticketr.refreshTicketList = function() {
       $("#list > ul").append(ticketElement);
       result.continue();
     };
-    console.log("Reached")
-    // You can append a ticket element to the list like this:
+    
     
   }
   
@@ -272,6 +246,8 @@ $(document).ready(function (e) {
   
   $("#clear").click(function (e){
     ticketr.refreshTicketList();
+    console.log("This");
+    console.log($("#search-term").val(''));
   });
   
   
