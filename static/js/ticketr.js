@@ -21,6 +21,7 @@ window.IDBTransaction =
 var openRequest = indexedDB.open(
   "ticketr", "Ticket data within."
 );
+
 openRequest.onsuccess = function(e) {
   ticketr.database = e.target.result;
   ticketr.database.onfailure = function(e) {
@@ -66,13 +67,14 @@ ticketr.createTicket = function(ticket) {
   );
   
   var request = transaction.objectStore("ticket").put({
-    "ticketNumber": "1234567890",
-    "confirmation": "QRXTFC",
+    "ticketNumber": "1221264490",
+    "confirmation": "QRDJDK",
     "airline": "Worldwide Airways"
   });
   
   request.onsuccess = function(e) {
     console.log("Great the record was added to the database");
+    ticketr.refreshTicketList();
   }
   request.onfailure = function(e) {
     console.log("No! Something went wrong!");
@@ -102,16 +104,42 @@ ticketr.search = function(query) {
 }
 
 ticketr.refreshTicketList = function() {
+  openRequest();
   if (ticketr.database) {
+    console.log("The database exists");
     $("#list > ul li:not(.header)").remove();
     // == EXERCISE 5 ==
     // Remove the example ticket boilerplate from the init method below, and
     // instead, query the database for the ticket data. Use the supplied
     // ticketr.buildTicketElement function to generate each ticket DOM structure.
+    var transaction = ticketr.database.transaction(
+      ["ticket"],
+      IDBTransaction.READ_WRITE,
+      0
+    );
 
+    var ticketStore = transaction.objectStore("ticket");
+    // Get everything in the object store;
+    var keyRange = IDBKeyRange.lowerBound(0);
+    var cursorRequest = ticketStore.openCursor(keyRange);
+
+
+    cursorRequest.onsuccess = function(e) {
+      var result = e.target.result;
+      if(!!result == false) return;
+      var ticket = result.value;
+      //Now we do something with the ticket
+      console.log(ticket);
+      var ticketElement = ticketr.buildTicketElement(ticket);
+      $("#list > ul").append(ticketElement);
+      result.continue();
+    };
+    console.log("Reached")
     // You can append a ticket element to the list like this:
-    // $("#list > ul").append(ticketElement);
+    
   }
+  
+  
 };
 
 ticketr.buildTicketElement = function(ticket) {
@@ -163,9 +191,11 @@ ticketr.buildTicketElement = function(ticket) {
 }
 
 $(document).ready(function (e) {
+  
   $("#add").click(function (e) {
     $("#edit").addClass("visible");
   });
+  
   $("#put").click(function (e) {
     $("#edit").removeClass("visible");
     var ticket = {
@@ -176,20 +206,15 @@ $(document).ready(function (e) {
     ticketr.createTicket(ticket);
   });
 
-  cursorRequest.onsuccess = function(e) {
-    var result = e.target.result;
-    if(!!result == false) return;
-    var ticket = result.value;
-    buildTicketElement(ticket);
-    result.continue();
-  };
+  ticketr.refreshTicketList();
+
 
   // == BOILERPLATE ==
   // Remove for EXERCISE 5.
-  var ticketElement = ticketr.buildTicketElement({
-    "ticketNumber": "1234567890",
-    "confirmation": "ABCDEF",
-    "airline": "Worldwide Airways"
-  });
-  $("#list > ul").append(ticketElement);
+  // var ticketElement = ticketr.buildTicketElement({
+  //    "ticketNumber": "1234567890",
+  //    "confirmation": "ABCDEF",
+  //    "airline": "Worldwide Airways"
+  //  });
+  //  $("#list > ul").append(ticketElement);
 });
